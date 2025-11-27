@@ -2,55 +2,62 @@ import { useState } from "react";
 import {
    Card,
    CardContent,
-   Typography,
    CardActions,
+   Typography,
    Button,
-   FormControl,
-   InputLabel,
-   Select,
-   MenuItem,
+   Checkbox,
 } from "@mui/material";
 
-export default function TonerCard({ toner }) {
-   const [qty, setQty] = useState(1);
-
-   const handleAdd = () => {
-      console.log("Add to cart", { ...toner, qty });
-   };
-
+export default function TonerCard({
+   toner,
+   mode = "inventory",
+   onDelete,
+   onSelect,
+   selected = false,
+}) {
    return (
-      <Card sx={{ width: 260, boxShadow: 3, borderRadius: 2 }}>
+      <Card
+         sx={{
+            width: 260,
+            borderRadius: 2,
+            boxShadow: 3,
+            padding: 1,
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "space-between",
+         }}
+      >
          <CardContent>
             <Typography variant="h6">{toner.model}</Typography>
             <Typography color="text.secondary">{toner.printer}</Typography>
-            <Typography variant="body2" sx={{ marginTop: 1 }}></Typography>
-
-            <FormControl fullWidth sx={{ mt: 2 }}>
-               <InputLabel id="qty-label">Qty</InputLabel>
-               <Select
-                  labelId="qty-label"
-                  value={qty}
-                  label="Qty"
-                  onChange={(e) => setQty(Number(e.target.value))}
-               >
-                  {[...Array(toner.stock).keys()].map((i) => (
-                     <MenuItem key={i + 1} value={i + 1}>
-                        {i + 1}
-                     </MenuItem>
-                  ))}
-               </Select>
-            </FormControl>
+            <Typography variant="body2" sx={{ marginTop: 1 }}>
+               Stock: {toner.stock}
+            </Typography>
          </CardContent>
+         <CardActions sx={{ justifyContent: "space-between" }}>
+            {mode === "checkout" && (
+               <Checkbox
+                  checked={selected}
+                  onChange={(e) => onSelect(toner.id, e.target.checked)}
+               />
+            )}
 
-         <CardActions>
+            {mode === "inventory" && (
+               <Button
+                  variant="outlined"
+                  color="error"
+                  onClick={() => onDelete(toner.id)}
+               >
+                  Delete
+               </Button>
+            )}
             <Button
                size="small"
                variant="contained"
-               color="primary"
-               onClick={handleAdd}
-               disabled={toner.stock === 0}
+               onClick={() => (window.location.href = `/toner/${toner.id}`)}
             >
-               {toner.stock === 0 ? "Out of Stock" : "Add to Cart"}
+               {" "}
+               Detials{" "}
             </Button>
          </CardActions>
       </Card>
