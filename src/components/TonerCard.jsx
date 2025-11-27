@@ -1,4 +1,3 @@
-import { useState } from "react";
 import {
    Card,
    CardContent,
@@ -29,9 +28,16 @@ export default function TonerCard({
       >
          <CardContent>
             <Typography variant="h6">{toner.model}</Typography>
-            <Typography color="text.secondary">{toner.printer}</Typography>
+            <Typography color="text.secondary">
+               Compatible Printers: {toner.printers?.length}
+            </Typography>
+            <Typography color="text.secondary">Color: {toner.color}</Typography>
             <Typography variant="body2" sx={{ marginTop: 1 }}>
-               Stock: {toner.stock}
+               Stock:{" "}
+               <span style={{ color: toner.stock <= 2 ? "red" : "inherit" }}>
+                  {" "}
+                  {toner.stock}{" "}
+               </span>
             </Typography>
          </CardContent>
          <CardActions sx={{ justifyContent: "space-between" }}>
@@ -57,7 +63,7 @@ export default function TonerCard({
                onClick={() => (window.location.href = `/toner/${toner.id}`)}
             >
                {" "}
-               Detials{" "}
+               Details{" "}
             </Button>
          </CardActions>
       </Card>
