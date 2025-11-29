@@ -12,6 +12,7 @@ export default function Inventory() {
 
    const [model, setModel] = useState("");
    const [printer, setPrinter] = useState("");
+   const [color, setColor] = useState("");
    const [stock, setStock] = useState(0);
 
    useEffect(() => {
@@ -30,6 +31,7 @@ export default function Inventory() {
       setModel("");
       setPrinter("");
       setStock(0);
+      setColor("");
    }
 
    const displayedToners = tempToners; // Replace with 'toners' when backend is ready
@@ -54,6 +56,12 @@ export default function Inventory() {
                label="Printers (comma separated)"
                value={printer}
                onChange={(e) => setPrinter(e.target.value)}
+               required
+            />
+            <TextField
+               label="Color"
+               value={color}
+               onChange={(e) => setColor(e.target.value)}
                required
             />
             <TextField
