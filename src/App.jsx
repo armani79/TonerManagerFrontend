@@ -1,5 +1,6 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Inventory from "./pages/Inventory.jsx";
+import Login from "./pages/Login.jsx";
 import { TonerProvider } from "./context/TonerContext";
 
 export default function App() {
@@ -8,6 +9,7 @@ export default function App() {
          <BrowserRouter>
             <Routes>
                <Route path="/inventory" element={<Inventory />} />
+               <Route path="/login" element={<Login />} />
             </Routes>
          </BrowserRouter>
       </TonerProvider>
