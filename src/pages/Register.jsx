@@ -3,6 +3,7 @@ import { Formik, Form } from "formik";
 import * as Yup from "yup";
 import { TextField, Button } from "@mui/material";
 import { useNavigate } from "react-router-dom";
+import { jwtDecode } from "jwt-decode";
 
 const RegisterSchema = Yup.object({
    email: Yup.string()
@@ -23,10 +24,17 @@ export default function Register() {
    async function handleRegister(values, { setSubmitting, setErrors }) {
       try {
          const res = await api.post("/register", values);
+         const token = res.data.token;
 
-         localStorage.setItem("token", res.data.token);
+         localStorage.setItem("token", token);
 
-         navigate("/inventory");
+         const decoded = jwtDecode(token);
+
+         if (decoded.role === "ADMIN") {
+            navigate("/inventory");
+         } else {
+            navigate("/checkout");
+         }
       } catch (error) {
          if (error.response) {
             setErrors({ email: error.response.data.error });
