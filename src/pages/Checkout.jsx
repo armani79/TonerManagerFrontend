@@ -3,6 +3,9 @@ import api from "../services/api";
 import TonerCard from "../components/TonerCard";
 import { Typography } from "@mui/material";
 import AppSnackbar from "../components/AppSnackbar";
+import { Height } from "@mui/icons-material";
+import Box from '@mui/material/Box';
+
 
 export default function Checkout() {
    const [toners, setToners] = useState([]);
@@ -48,7 +51,21 @@ export default function Checkout() {
    }
 
    if (loading) {
-      return <h2 sty={{ padding: 20 }}>Loading toners...</h2>;
+      return (
+         <Box
+            sx={{
+               height: "80vh",
+               display: "flex",
+               justifyContent: "center",
+               alignItems: "Center",
+            }}
+         >
+            <Typography variant="h4" color="text.secondary">
+               Loading Toners...
+            </Typography>
+            "
+         </Box>
+      );
    }
 
    return (
