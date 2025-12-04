@@ -2,6 +2,7 @@ import { Formik, Form, Field } from "formik";
 import * as Yup from "yup";
 import { TextField, Button, Typography } from "@mui/material";
 import { useNavigate } from "react-router-dom";
+import api from "../services/api";
 
 const LoginSchema = Yup.object({
    email: Yup.string().email("Invalid email").required("Required"),
@@ -13,11 +14,20 @@ const LoginSchema = Yup.object({
 export default function Login() {
    const navigate = useNavigate();
 
-   // TEMP values while i still work on backend
-   function fakeLogin(values) {
-      console.log("Login submitted: ", values);
-      alert("Login successful!");
-      navigate("/inventory");
+   async function handleLogin(values, { setSubmitting, setErrors }) {
+      try {
+         const res = await api.post("/login", values);
+
+         localStorage.setItem("token", res.data.token);
+
+         navigate("/inventory");
+      } catch (error) {
+         if (error.response) {
+            setErrors({ email: error.response.data.error });
+         }
+      } finally {
+         setSubmitting(false);
+      }
    }
 
    return (
@@ -55,7 +65,7 @@ export default function Login() {
                <Formik
                   initialValues={{ email: "", password: "" }}
                   validationSchema={LoginSchema}
-                  onSubmit={fakeLogin}
+                  onSubmit={handleLogin}
                >
                   {({ errors, touched, handleChange }) => (
                      <Form>
