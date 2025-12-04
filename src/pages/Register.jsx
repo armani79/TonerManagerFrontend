@@ -1,3 +1,4 @@
+import api from "../services/api";
 import { Formik, Form } from "formik";
 import * as Yup from "yup";
 import { TextField, Button } from "@mui/material";
@@ -44,11 +45,12 @@ export default function Register() {
             validationSchema={RegisterSchema}
             onSubmit={handleRegister}
          >
-            {({ errors, touched, handleChange }) => (
+            {({ errors, touched, handleChange, values }) => (
                <Form>
                   <TextField
                      label="Email"
                      name="email"
+                     value={values.email}
                      fullWidth
                      margin="normal"
                      onChange={handleChange}
@@ -60,6 +62,7 @@ export default function Register() {
                      label="Password"
                      name="password"
                      type="password"
+                     value={values.password}
                      fullWidth
                      margin="normal"
                      onChange={handleChange}
@@ -71,6 +74,7 @@ export default function Register() {
                      label="Confirm Password"
                      name="confirm"
                      type="password"
+                     value={values.confirm}
                      fullWidth
                      margin="normal"
                      onChange={handleChange}
