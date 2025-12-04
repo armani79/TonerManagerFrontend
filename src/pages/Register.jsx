@@ -19,10 +19,20 @@ const RegisterSchema = Yup.object({
 export default function Register() {
    const navigate = useNavigate();
 
-   function fakeRegister(values) {
-      console.log("Registered with values:", values);
-      alert("Registration successful!");
-      navigate("/login");
+   async function handleRegister(values, { setSubmitting, setErrors }) {
+      try {
+         const res = await api.post("/register", values);
+
+         localStorage.setItem("token", res.data.token);
+
+         navigate("/inventory");
+      } catch (error) {
+         if (error.response) {
+            setErrors({ email: error.response.data.error });
+         }
+      } finally {
+         setSubmitting(false);
+      }
    }
 
    return (
@@ -32,7 +42,7 @@ export default function Register() {
          <Formik
             initialValues={{ email: "", password: "", confirm: "" }}
             validationSchema={RegisterSchema}
-            onSubmit={fakeRegister}
+            onSubmit={handleRegister}
          >
             {({ errors, touched, handleChange }) => (
                <Form>
