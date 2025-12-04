@@ -1,3 +1,4 @@
+import { ShoppingBag, ShoppingCart, Info } from "@mui/icons-material";
 import {
    Card,
    CardContent,
@@ -6,6 +7,7 @@ import {
    Button,
    Checkbox,
    TextField,
+   IconButton,
 } from "@mui/material";
 
 import { useState } from "react";
@@ -72,8 +74,10 @@ export default function TonerCard({
                      sx={{ width: 80 }}
                   />
                   <Button
+                     startIcon={<ShoppingCart />}
                      variant="contained"
                      color="primary"
+                     size="small"
                      onClick={() => onCheckout(toner.id, qty)}
                   >
                      Checkout
@@ -81,12 +85,17 @@ export default function TonerCard({
                </>
             )}
             <Button
-               size="small"
+               startIcon={<Info />}
                variant="contained"
+               size="small"
+               sx={{
+                  backgroundColor: "#e0e0e0",
+                  color: "#333",
+                  "&:hover": { backgroundColor: "#d5d5d5" },
+               }}
                onClick={() => (window.location.href = `/toner/${toner.id}`)}
             >
-               {" "}
-               Details{" "}
+               Details
             </Button>
          </CardActions>
       </Card>
