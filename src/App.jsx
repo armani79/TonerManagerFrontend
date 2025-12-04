@@ -3,13 +3,21 @@ import Inventory from "./pages/Inventory.jsx";
 import Login from "./pages/Login.jsx";
 import Register from "./pages/Register.jsx";
 import { TonerProvider } from "./context/TonerContext";
+import ProtectedRoute from "./components/ProtectedRoute.jsx";
 
 export default function App() {
    return (
       <TonerProvider>
          <BrowserRouter>
             <Routes>
-               <Route path="/inventory" element={<Inventory />} />
+               <Route
+                  path="/inventory"
+                  element={
+                     <ProtectedRoute>
+                        <Inventory />
+                     </ProtectedRoute>
+                  }
+               />
                <Route path="/login" element={<Login />} />
                <Route path="/register" element={<Register />} />
             </Routes>
