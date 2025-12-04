@@ -3,6 +3,7 @@ import * as Yup from "yup";
 import { TextField, Button, Typography } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import api from "../services/api";
+import { jwtDecode } from "jwt-decode";
 
 const LoginSchema = Yup.object({
    email: Yup.string().email("Invalid email").required("Required"),
@@ -17,10 +18,17 @@ export default function Login() {
    async function handleLogin(values, { setSubmitting, setErrors }) {
       try {
          const res = await api.post("/login", values);
+         const token = res.data.token;
 
-         localStorage.setItem("token", res.data.token);
+         localStorage.setItem("token", token);
 
-         navigate("/inventory");
+         const decoded = jwtDecode(token);
+
+         if (decoded.role === "ADMIN") {
+            navigate("/inventory");
+         } else {
+            navigate("/checkout");
+         }
       } catch (error) {
          if (error.response) {
             setErrors({ email: error.response.data.error });
@@ -35,7 +43,7 @@ export default function Login() {
          <div
             style={{
                flex: 1,
-               backgroundColor: 'url("/backgroundLogin.jpg")',
+               backgroundImage: 'url("/backgroundLogin.jpg")',
                backgroundSize: "cover",
                backgroundPosition: "center",
                backgroundRepeat: "no-repeat",
@@ -60,7 +68,7 @@ export default function Login() {
          >
             <div style={{ width: "350px" }}>
                <Typography variant="h4" gutterBottom>
-                  Login
+                  Toner Supply Website
                </Typography>
                <Formik
                   initialValues={{ email: "", password: "" }}
