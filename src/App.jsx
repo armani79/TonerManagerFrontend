@@ -1,6 +1,7 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Inventory from "./pages/Inventory.jsx";
 import Login from "./pages/Login.jsx";
+import Checkout from "./pages/Checkout.jsx";
 import Register from "./pages/Register.jsx";
 import { TonerProvider } from "./context/TonerContext";
 import ProtectedRoute from "./components/ProtectedRoute.jsx";
@@ -15,6 +16,14 @@ export default function App() {
                   element={
                      <ProtectedRoute>
                         <Inventory />
+                     </ProtectedRoute>
+                  }
+               />
+               <Route
+                  path="/checkout"
+                  element={
+                     <ProtectedRoute>
+                        <Checkout />
                      </ProtectedRoute>
                   }
                />
