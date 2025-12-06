@@ -29,6 +29,7 @@ export default function App() {
                />
                <Route path="/login" element={<Login />} />
                <Route path="/register" element={<Register />} />
+               <Route path="/toner/:id" element={<TonerDetail />} />
             </Routes>
          </BrowserRouter>
       </TonerProvider>
