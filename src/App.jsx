@@ -1,4 +1,5 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import EditToner from "./pages/EditToner.jsx";
 import TonerDetails from "./pages/TonerDetail.jsx";
 import Inventory from "./pages/Inventory.jsx";
 import Login from "./pages/Login.jsx";
