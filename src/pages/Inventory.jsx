@@ -2,13 +2,13 @@
 
 import { useEffect, useState } from "react";
 // import { useToners } from "../context/TonerContext";
-import TonerCard from "../components/TonerCard";
+
 import { TextField, Button, Typography } from "@mui/material";
-import { tempToners } from "../data/toners.js";
+import api from "../services/api";
+import TonerCard from "../components/TonerCard.jsx";
 
 export default function Inventory() {
-   // Commenting out for now while I work with temporary data
-   //    const { toners, getToners, addToner, deleteToner } = useToners();
+   const [toners, setToners] = useState([]);
 
    const [model, setModel] = useState("");
    const [printer, setPrinter] = useState("");
@@ -16,25 +16,57 @@ export default function Inventory() {
    const [stock, setStock] = useState(0);
 
    useEffect(() => {
-      // backend not implemented yet
-      //   getToners();
+      async function fetchData() {
+         try {
+            const res = await api.get("/toners");
+            setToners(res.data);
+         } catch (error) {
+            console.error(error);
+         }
+      }
+      fetchData();
    }, []);
 
-   function handleAdd(e) {
+   async function handleAdd(e) {
       e.preventDefault();
-      //   addToner({
-      //      model,
-      //      printers: printer.split(",").map((p) => p.trim()),
-      //      stock: Number(stock),
-      //   });
-      // Reset form fields after adding
-      setModel("");
-      setPrinter("");
-      setStock(0);
-      setColor("");
+      try {
+         const payload = {
+            model,
+            color,
+            printers: printer
+               .split(",")
+               .map((p) => p.trim())
+               .filter((p) => p.length > 0),
+            stock: Number(stock),
+         };
+         const res = await api.post("/toners", payload);
+
+         setToners((prev) => [...prev, res.data]);
+         setModel("");
+         setPrinter("");
+         setColor("");
+         setStock(0);
+      } catch (error) {
+         console.error(error);
+         alert("Failed to add toner");
+      }
    }
 
-   const displayedToners = tempToners; // Replace with 'toners' when backend is ready
+   async function handleDelete(id) {
+      if (
+         !window.confirm("WARNING: Are you sure you want to delete this toner?")
+      )
+         return;
+
+      try {
+         await api.delete(`/toners/${id}`);
+
+         setToners((prev) => prev.filter((t) => t.id !== id));
+      } catch (error) {
+         console.error(error);
+         alert("Failed to delete toner");
+      }
+   }
 
    return (
       <div style={{ padding: 20 }}>
@@ -77,12 +109,12 @@ export default function Inventory() {
          </form>
 
          <div style={{ display: "flex", flexWrap: "wrap", gap: 20 }}>
-            {displayedToners.map((toner) => (
+            {toners.map((toner) => (
                <TonerCard
                   key={toner.id}
                   toner={toner}
                   mode="inventory"
-                  onDelete={() => alert("Delete not connected yet")}
+                  onDelete={handleDelete}
                />
             ))}
          </div>
