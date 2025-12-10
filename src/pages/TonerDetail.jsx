@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import api from "../services/api";
-import { CardContent, Typography, Card } from "@mui/material";
+import { CardContent, Typography, Card, Button } from "@mui/material";
 
 export default function TonerDetails() {
    const { id } = useParams();
@@ -57,6 +57,28 @@ export default function TonerDetails() {
                <Typography>
                   <strong>Stock: </strong> {toner.stock}
                </Typography>
+
+               <Typography variant="body1">
+                  <strong> Compatible Printers: </strong>{" "}
+                  {Array.isArray(toner.printers)
+                     ? toner.printers.join(", ")
+                     : toner.printers}
+               </Typography>
+
+               <Button sx={{ mt: 2 }} onClick={() => navigate(-1)}>
+                  {" "}
+                  Back{" "}
+               </Button>
+
+               {user?.role === "ADMIN" && (
+                  <Button
+                     variant="outlined"
+                     sx={{ mt: 2, ml: 2 }}
+                     onClick={() => navigate(`/toner/${id}/edit`)}
+                  >
+                     Edit
+                  </Button>
+               )}
             </CardContent>
          </Card>
       </div>
