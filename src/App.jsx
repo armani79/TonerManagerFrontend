@@ -28,6 +28,14 @@ export default function App() {
                      </ProtectedRoute>
                   }
                />
+               <Route
+                  path="/toner/:id/edit"
+                  element={
+                     <ProtectedRoute requireRole="ADMIN">
+                        <EditToner />
+                     </ProtectedRoute>
+                  }
+               />
                <Route path="/login" element={<Login />} />
                <Route path="/register" element={<Register />} />
                <Route path="/toner/:id" element={<TonerDetails />} />
