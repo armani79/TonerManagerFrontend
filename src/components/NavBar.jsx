@@ -1,21 +1,11 @@
 import { AppBar, Toolbar, Typography, Button, Box } from "@mui/material";
+import { useAuth } from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
 import LogoutButton from "./LogoutButton";
 
 export default function NavBar() {
+   const { user, logout } = useAuth();
    const navigate = useNavigate();
-
-   const token = localStorage.getItem("token");
-   let user = null;
-
-   if (token) {
-      try {
-         const payload = JSON.parse(atob(token.split(".")[1]));
-         user = payload;
-      } catch (error) {
-         console.error("Invalid token");
-      }
-   }
 
    return (
       <AppBar position="static" sx={{ background: "#333" }}>

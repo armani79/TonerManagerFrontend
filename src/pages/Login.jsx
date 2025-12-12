@@ -4,6 +4,7 @@ import { TextField, Button, Typography } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import api from "../services/api";
 import { jwtDecode } from "jwt-decode";
+import { useAuth } from "../context/AuthContext";
 
 const LoginSchema = Yup.object({
    email: Yup.string().email("Invalid email").required("Required"),
@@ -14,13 +15,14 @@ const LoginSchema = Yup.object({
 
 export default function Login() {
    const navigate = useNavigate();
+   const { login } = useAuth();
 
    async function handleLogin(values, { setSubmitting, setErrors }) {
       try {
          const res = await api.post("/login", values);
          const token = res.data.token;
 
-         localStorage.setItem("token", token);
+         login(token);
 
          const decoded = jwtDecode(token);
 
