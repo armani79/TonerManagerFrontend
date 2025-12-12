@@ -1,11 +1,9 @@
 import { useEffect, useState } from "react";
 import api from "../services/api";
-import TonerCard from "../components/TonerCard";
+import { TonerCard, AppSnackbar } from "../components";
 import { Typography } from "@mui/material";
-import AppSnackbar from "../components/AppSnackbar";
 import { Height } from "@mui/icons-material";
-import Box from '@mui/material/Box';
-
+import Box from "@mui/material/Box";
 
 export default function Checkout() {
    const [toners, setToners] = useState([]);

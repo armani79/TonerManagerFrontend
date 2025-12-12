@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 
 import { TextField, Button, Typography } from "@mui/material";
 import api from "../services/api";
-import TonerCard from "../components/TonerCard.jsx";
+import { TonerCard } from "../components";
 
 export default function Inventory() {
    const [toners, setToners] = useState([]);
