@@ -16,7 +16,9 @@ function Layout() {
    const location = useLocation();
 
    const hideNav =
-      location.pathname === "/login" || location.pathname === "/register";
+      location.pathname === "/login" ||
+      location.pathname === "/register" ||
+      location.pathname === "/";
 
    return (
       <>
