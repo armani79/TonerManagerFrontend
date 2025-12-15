@@ -1,12 +1,14 @@
 import { createContext, useContext, useState, useEffect } from "react";
 import { jwtDecode } from "jwt-decode";
 
+// AuthContext provides global authentication state and methods
 const AuthContext = createContext(null);
 
 export function AuthProvider({ children }) {
    const [user, setUser] = useState(null);
    const [loading, setLoading] = useState(true);
 
+   // Decodes JWT on page refresh to persist login state
    useEffect(() => {
       const token = localStorage.getItem("token");
 
@@ -24,12 +26,14 @@ export function AuthProvider({ children }) {
       setLoading(false);
    }, []);
 
+   // Stores JWT and updates user state on login
    function login(token) {
       localStorage.setItem("token", token);
       const decoded = jwtDecode(token);
       setUser(decoded);
    }
 
+   // clears auth state and logs user out
    function logout() {
       localStorage.removeItem("token");
       setUser(null);

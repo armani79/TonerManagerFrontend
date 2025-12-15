@@ -11,7 +11,7 @@ import {
 } from "@mui/material";
 
 import { useState } from "react";
-
+// reusable card component for displaying toner information
 export default function TonerCard({
    toner,
    mode = "inventory",
@@ -20,7 +20,7 @@ export default function TonerCard({
    onSelect,
    selected = false,
 }) {
-   const [qty, setQty] = useState(1);
+   const [qty, setQty] = useState(1); // Local state for checkout quantity
 
    return (
       <Card

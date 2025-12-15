@@ -17,7 +17,7 @@ export default function Checkout() {
    function showSnackbar(message, severity = "success") {
       setSnackbar({ open: true, message, severity });
    }
-
+// Fetch available toners for checkout
    useEffect(() => {
       async function fetchToners() {
          try {
@@ -31,13 +31,13 @@ export default function Checkout() {
       }
       fetchToners();
    }, []);
-
+// Handle checkout action
    async function handleCheckout(id, qty) {
       try {
          const res = await api.put(`/toners/${id}/checkout`, { amount: qty });
 
          setToners((prev) => prev.map((t) => (t.id === id ? res.data : t)));
-
+         // Displays success or error message using Snackbar
          showSnackbar("Checkout successfully!", "success");
       } catch (error) {
          console.error(error);

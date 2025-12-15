@@ -15,6 +15,7 @@ export default function Inventory() {
    const [color, setColor] = useState("");
    const [stock, setStock] = useState(0);
 
+   // Fetch all toners from backend when page loads
    useEffect(() => {
       async function fetchData() {
          try {
@@ -26,7 +27,7 @@ export default function Inventory() {
       }
       fetchData();
    }, []);
-
+// Handle adding a new toner
    async function handleAdd(e) {
       e.preventDefault();
       try {
@@ -51,7 +52,7 @@ export default function Inventory() {
          alert("Failed to add toner");
       }
    }
-
+// Handle deleting a toner
    async function handleDelete(id) {
       if (
          !window.confirm("WARNING: Are you sure you want to delete this toner?")

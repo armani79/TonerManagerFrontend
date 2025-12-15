@@ -2,7 +2,7 @@ import { AppBar, Toolbar, Typography, Button, Box } from "@mui/material";
 import { useAuth } from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
 import LogoutButton from "./LogoutButton";
-
+// Navigation bar with conditional links based on authentication
 export default function NavBar() {
    const { user, logout } = useAuth();
    const navigate = useNavigate();
